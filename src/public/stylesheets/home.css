@@ -3,16 +3,23 @@ body {
     /*color: white;*/
 }
 
+/** task containers **/
+/*.task-panel {
+
+}*/
 .task-container {    
-    font-size: 1.5em; /* rem based off of root(relative) size, while em based off of direct parent */
+    font-size: 1.2  em; /* rem based off of root(relative) size, while em based off of direct parent */
     position: relative; /* Set in order to position close button absolute (based off of first positioned ancestor) */
-    border-top: 1px solid ghostwhite;    
-    border-bottom: 2px solid lightslategrey;
+    border-top: .1px solid ghostwhite;    
+    border-bottom: 1px solid seagreen;
 }
 .task-container:hover {
     cursor: pointer;
     background-color: lightblue;
     color: white;
+}
+.task-container:first-child {
+    border-top: none;    
 }
 .task-container:last-child {
     border-bottom: none;
@@ -35,9 +42,22 @@ body {
 }
 .close {
     font-size: 1.5em;
-    position: absolute;
-    right: 10px
+    /*font-size: 1.5em;*/
+    /*position: absolute;*/
+    /*right: 10px*/
 }
+.close-wrapper {    
+    position: absolute;
+    right: 7px;    
+    height: inherit;
+    /*height: 60%; TODO: make close wrapper circle*/
+    /*width: 60%; Note: this adds cool bar to top right*/
+}
+.close-wrapper:hover {
+    background-color: white;
+    border-radius: 100px;
+}
+/** /task containers **/
 
 .todo {
     color: palevioletred;

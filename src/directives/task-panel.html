@@ -1,12 +1,15 @@
 <h4>{{ vm.tasklvl | taskImportanceValue }}</h4>
 <!--<h4>{{ vm.tasklvl | taskImportanceValue }} Tasks</h4>-->
-
-<div class="task-container task-container-lvl-{{vm.tasklvl}}" ng-repeat="task in vm.tasks">        
-    <span>{{ task.title }}</span>
-    <!--<span>{{ task.importance | taskImportanceValue }}</span>    -->
-    <span>{{ task.status }}</span>
-    <span>{{ task.createDate }}</span>
-    <span type="button" class="close" aria-label="close" ng-click="vm.removeTask(task)">
-        <span aria-hidden="true">&times;</span>
-    </span>   
-</div> 
+<div id="taskPanelLvl{{vm.tasklvl}}" class="task-panel">
+    <div class="task-container task-container-lvl-{{vm.tasklvl}}" ng-repeat="task in vm.tasks">        
+        <span>{{ task.title }}</span>
+        <!--<span>{{ task.importance | taskImportanceValue }}</span>    -->
+        <span>{{ task.status }}</span>
+        <span>{{ task.createDate }}</span>
+        <span class="close-wrapper">
+            <span type="button" class="close" aria-label="close" ng-click="vm.removeTask(task)">
+                <span aria-hidden="true">&times;</span>
+            </span>
+        </span>   
+    </div> 
+</div>

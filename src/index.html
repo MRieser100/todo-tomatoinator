@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+  <head>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- From https://fonts.google.com/ -->
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet"> 
+    
+    <meta charset="utf-8"/>
+    <title>TodoTomatoinator</title>
+    <meta name="viewport" content="width=device-width"/>
+  </head>
+  <body ng-app="todo-tomatoinator" ng-strict-di>    
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <section ui-view></section>
+      </div>
+    </div>    
+    <script src="bundle.js"></script>
+  </body>
+</html>

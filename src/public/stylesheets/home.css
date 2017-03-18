@@ -1,0 +1,44 @@
+body {
+    font-family: 'Libre Baskerville', serif;
+    /*color: white;*/
+}
+
+.task-container {    
+    font-size: 1.5em; /* rem based off of root(relative) size, while em based off of direct parent */
+    position: relative; /* Set in order to position close button absolute (based off of first positioned ancestor) */
+    border-top: 1px solid ghostwhite;    
+    border-bottom: 2px solid lightslategrey;
+}
+.task-container:hover {
+    cursor: pointer;
+    background-color: lightblue;
+    color: white;
+}
+.task-container:last-child {
+    border-bottom: none;
+}
+.task-container-lvl-1 {
+    background-color: #d84747;
+    /*border-bottom: 2px solid black;*/
+}
+.task-container-lvl-2 {
+    background-color: #ff9900;
+    /*border-bottom: 2px solid black;*/
+}
+.task-container-lvl-3 {
+    background-color: yellow;
+    /*border-bottom: 2px solid #e6e600;*/
+}
+.task-container-lvl-4 {
+    background-color: #85f218;
+    /*border-bottom: 2px solid darkolivegreen;*/
+}
+.close {
+    font-size: 1.5em;
+    position: absolute;
+    right: 10px
+}
+
+.todo {
+    color: palevioletred;
+}

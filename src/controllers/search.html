@@ -1,0 +1,10 @@
+<h2>Search Results</h2>
+
+<a ui-sref="home">Back</a>
+<button type="button" ng-click="vm.handleRefresh()">Refresh Results</button>
+
+<ul>
+  <li ng-repeat="result in vm.results">
+    <a target="_blank" ng-href="{{result.url}}">{{result.title}}</a>
+  </li>
+</ul>

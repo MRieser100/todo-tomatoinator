@@ -1,0 +1,3 @@
+TASKS:
+task statuses: (0: Not Started, 1: In Progress, 2: Paused, 3: Completed)
+

@@ -6,6 +6,7 @@ function TaskService($http) {
       return {id: result.id,
               title: result.title,
               importance: result.importance,
+              isActive: result.isActive,
               status: result.status,
               createDate: result.createDate,
               startDate: result.startDate,
@@ -14,10 +15,14 @@ function TaskService($http) {
     });
   }
 
-  function getTasks() {        
-    console.log('TaskService#getTasks');
-    return $http.get('/api/tasks')
-      .then(_responseTransformer);
+  function _getActiveTask(response) {      
+    return response.filter( (task) => {      
+      if (task.isActive) { return task; }
+    })[0];    
+  }
+
+  function _clearActiveTask(task) {    
+    return task === undefined ? true : updateTask(task.id, {"isActive": false});    
   }
 
   function addTask(params) {
@@ -41,18 +46,39 @@ function TaskService($http) {
       // });
   }
 
+  function getTasks() {            
+    return $http.get('/api/tasks')
+      .then(_responseTransformer);
+  }
+
+  function updateTask(taskID, updateParams) {
+    return $http.patch(`/api/tasks/${taskID}`, updateParams);    
+    // Question: possible/easier/faster to just update patched task??
+  }
+
   function removeTask(taskID) {
     // return $http.delete('/api/tasks', {"id": taskID})
-    return $http.delete(`/api/tasks/${taskID}`)
+    return $http.delete(`/api/tasks/${taskID}`);
       // .then(function(result) {
       //   console.log(result);
       // });
   }  
 
-  return {
-    getTasks,
+  function getActiveTask() {
+    return getTasks().then(_getActiveTask);
+  }
+
+  function clearActiveTask() {
+    return getActiveTask().then(_clearActiveTask);
+  }
+
+  return {    
     addTask,
-    removeTask
+    getTasks,
+    updateTask,
+    removeTask,
+    getActiveTask,
+    clearActiveTask
   };
 }
 

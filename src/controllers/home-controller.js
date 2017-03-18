@@ -7,11 +7,10 @@ function HomeController($scope, $state, TaskService, tasks) {
   // $scope.tasklvl = '1';
   $scope.taskLevels = [1,2,3,4]; // TODO: Extract to service || properties file
   $scope.title = null;
-  $scope.importance = '1'; // A
+  $scope.importance = '1'; // A  
 
   $scope.refreshState = () => {
-    $state.reload();           
-    // $state.transitionTo($state.current, {}, {reload: true});
+    $state.reload();               
   }
 
   $scope.refreshTasks = () => {
@@ -37,7 +36,8 @@ function HomeController($scope, $state, TaskService, tasks) {
       {
         "title": $scope.title,
         "importance": parseInt($scope.importance), // TODO: convert to subtype
-        "staus": 0, // (0: Not Started, 1: In Progress, 2: Paused, 3: Completed),
+        "isActive": false, // Note: task can be started but not currently active (only 1 active at a time)
+        "status": 0, // (0: Not Started, 1: In Progress, 2: Paused, 3: Completed),
         "createDate": new Date(Date.now()).toISOString().substring(0, 10),
         "startDate": null,
         "notes": {}

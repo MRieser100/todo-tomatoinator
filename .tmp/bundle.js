@@ -38095,11 +38095,10 @@ function HomeController($scope, $state, TaskService, tasks) {
   // $scope.tasklvl = '1';
   $scope.taskLevels = [1, 2, 3, 4]; // TODO: Extract to service || properties file
   $scope.title = null;
-  $scope.importance = '1'; // A
+  $scope.importance = '1'; // A  
 
   $scope.refreshState = function () {
     $state.reload();
-    // $state.transitionTo($state.current, {}, {reload: true});
   };
 
   $scope.refreshTasks = function () {
@@ -38128,7 +38127,8 @@ function HomeController($scope, $state, TaskService, tasks) {
     return TaskService.addTask({
       "title": $scope.title,
       "importance": parseInt($scope.importance), // TODO: convert to subtype
-      "staus": 0, // (0: Not Started, 1: In Progress, 2: Paused, 3: Completed),
+      "isActive": false, // Note: task can be started but not currently active (only 1 active at a time)
+      "status": 0, // (0: Not Started, 1: In Progress, 2: Paused, 3: Completed),
       "createDate": new Date(Date.now()).toISOString().substring(0, 10),
       "startDate": null,
       "notes": {}
@@ -38181,11 +38181,28 @@ function TaskPanelDirective(TaskService, $state) {
         controller: function controller() {},
         link: function link(scope) {
             var vm = scope.vm;
+            // vm.getActiveTask = () => {
+
+            // }
 
             vm.removeTask = function (task) {
                 TaskService.removeTask(task.id).then(function () {
-                    $state.transitionTo($state.current, {}, { reload: true });
+                    $state.reload();
                 });
+            };
+            vm.toggleActiveTask = function (task) {
+                if (task.isActive) {
+                    TaskService.updateTask(task.id, { "isActive": false }).then(function () {
+                        $state.reload();
+                    });
+                } else {
+                    console.log('!task.isActive');
+                    TaskService.clearActiveTask().then(function () {
+                        TaskService.updateTask(task.id, { "isActive": true }).then(function () {
+                            $state.reload();
+                        });
+                    });
+                }
             };
         }
     };
@@ -38194,7 +38211,7 @@ function TaskPanelDirective(TaskService, $state) {
 exports.default = TaskPanelDirective;
 
 },{"./task-panel.html":8}],8:[function(require,module,exports){
-module.exports = '<h4>{{ vm.tasklvl | taskImportanceValue }}</h4>\n<!--<h4>{{ vm.tasklvl | taskImportanceValue }} Tasks</h4>-->\n<div id="taskPanelLvl{{vm.tasklvl}}" class="task-panel">\n    <div class="task-container task-container-lvl-{{vm.tasklvl}}" ng-repeat="task in vm.tasks">        \n        <span>{{ task.title }}</span>\n        <!--<span>{{ task.importance | taskImportanceValue }}</span>    -->\n        <span>{{ task.status }}</span>\n        <span>{{ task.createDate }}</span>\n        <span class="close-wrapper">\n            <span type="button" class="close" aria-label="close" ng-click="vm.removeTask(task)">\n                <span aria-hidden="true">&times;</span>\n            </span>\n        </span>   \n    </div> \n</div>';
+module.exports = '<h4>{{ vm.tasklvl | taskImportanceValue }}</h4>\n<!--<h4>{{ vm.tasklvl | taskImportanceValue }} Tasks</h4>-->\n<div id="taskPanelLvl{{vm.tasklvl}}" class="task-panel">\n    <div ng-class="{\'active-task\': task.isActive}" class="task-container task-container-lvl-{{vm.tasklvl}}" ng-repeat="task in vm.tasks" ng-click="vm.toggleActiveTask(task)">        \n        <span>{{ task.title }}</span>\n        <!--<span>{{ task.importance | taskImportanceValue }}</span>    -->\n        <span>{{ task.status }}</span>\n        <span>{{ task.createDate }}</span>\n        <span class="close-wrapper">\n            <span type="button" class="close" aria-label="close" ng-click="vm.removeTask(task)">\n                <span aria-hidden="true">&times;</span>\n            </span>\n        </span>   \n    </div> \n</div>';
 },{}],9:[function(require,module,exports){
 'use strict';
 
@@ -38292,6 +38309,7 @@ function TaskService($http) {
       return { id: result.id,
         title: result.title,
         importance: result.importance,
+        isActive: result.isActive,
         status: result.status,
         createDate: result.createDate,
         startDate: result.startDate,
@@ -38300,9 +38318,16 @@ function TaskService($http) {
     });
   }
 
-  function getTasks() {
-    console.log('TaskService#getTasks');
-    return $http.get('/api/tasks').then(_responseTransformer);
+  function _getActiveTask(response) {
+    return response.filter(function (task) {
+      if (task.isActive) {
+        return task;
+      }
+    })[0];
+  }
+
+  function _clearActiveTask(task) {
+    return task === undefined ? true : updateTask(task.id, { "isActive": false });
   }
 
   function addTask(params) {
@@ -38326,6 +38351,15 @@ function TaskService($http) {
     // });
   }
 
+  function getTasks() {
+    return $http.get('/api/tasks').then(_responseTransformer);
+  }
+
+  function updateTask(taskID, updateParams) {
+    return $http.patch('/api/tasks/' + taskID, updateParams);
+    // Question: possible/easier/faster to just update patched task??
+  }
+
   function removeTask(taskID) {
     // return $http.delete('/api/tasks', {"id": taskID})
     return $http.delete('/api/tasks/' + taskID);
@@ -38334,10 +38368,21 @@ function TaskService($http) {
     // });
   }
 
+  function getActiveTask() {
+    return getTasks().then(_getActiveTask);
+  }
+
+  function clearActiveTask() {
+    return getActiveTask().then(_clearActiveTask);
+  }
+
   return {
-    getTasks: getTasks,
     addTask: addTask,
-    removeTask: removeTask
+    getTasks: getTasks,
+    updateTask: updateTask,
+    removeTask: removeTask,
+    getActiveTask: getActiveTask,
+    clearActiveTask: clearActiveTask
   };
 }
 

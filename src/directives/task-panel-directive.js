@@ -4,24 +4,36 @@ function TaskPanelDirective(TaskService, $state) {
     'ngInject';
 
     return {
-        template,        
+        template,
         // transclude: true,
         restrict: 'E',
         scope: { // creates an isolate scope, mirroring the passed parent's scope                              
         },
         controllerAs: 'vm',
         bindToController: {
-            tasklvl: '=',                                          
+            tasklvl: '=',
             tasks: '='
         },
-        controller: () => {},
-        link: (scope) => {
-            const {vm} = scope;
-              vm.removeTask = (task) => {                           
-                TaskService.removeTask(task.id).then( () => {
-                    $state.transitionTo($state.current, {}, {reload: true});
-                })
+        controller: () => { },
+        link: (scope) => {                   
+            const {vm} = scope;            
+            // vm.getActiveTask = () => {
+
+            // }
+            vm.removeTask = (task) => {
+                TaskService.removeTask(task.id).then(() => { $state.reload(); });
             }
+            vm.toggleActiveTask = (task) => {                                    
+                if (task.isActive) {
+                    TaskService.updateTask(task.id, {"isActive": false}).then(() => { $state.reload() });
+                } else {
+                    console.log('!task.isActive');
+                    TaskService.clearActiveTask().then(() => { 
+                        TaskService.updateTask(task.id, {"isActive": true}).then(() => { $state.reload() })
+                    });
+                }
+            }
+
         }
     };
 }

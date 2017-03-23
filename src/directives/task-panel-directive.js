@@ -16,10 +16,8 @@ function TaskPanelDirective(TaskService, $state) {
         },
         controller: () => { },
         link: (scope) => {                   
-            const {vm} = scope;            
-            // vm.getActiveTask = () => {
-
-            // }
+            const {vm} = scope;                       
+            vm.displayTaskPanel = true;
             vm.removeTask = (task) => {
                 TaskService.removeTask(task.id).then(() => { $state.reload(); });
             }
@@ -33,6 +31,10 @@ function TaskPanelDirective(TaskService, $state) {
                     });
                 }
             }
+
+            vm.toggleTaskPanel = () => {                                  
+                vm.displayTaskPanel = !vm.displayTaskPanel;
+            } 
 
         }
     };

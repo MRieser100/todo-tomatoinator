@@ -7,6 +7,21 @@ body {
 /*.task-panel {
 
 }*/
+/*.task-panel.ng-hide {
+  opacity: 0;
+}*/
+.task-header {
+    text-align: center;
+    background-color: ghostwhite;
+    margin-bottom: 0px;
+}
+.task-header:hover {
+    cursor: alias;    
+}
+.task-panel.ng-hide-add,
+.task-panel.ng-hide-remove {
+  transition: all linear 2s;  
+}
 .task-container {    
     font-size: 1.2  em; /* rem based off of root(relative) size, while em based off of direct parent */
     position: relative; /* Set in order to position close button absolute (based off of first positioned ancestor) */

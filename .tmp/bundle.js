@@ -38181,10 +38181,8 @@ function TaskPanelDirective(TaskService, $state) {
         controller: function controller() {},
         link: function link(scope) {
             var vm = scope.vm;
-            // vm.getActiveTask = () => {
 
-            // }
-
+            vm.displayTaskPanel = true;
             vm.removeTask = function (task) {
                 TaskService.removeTask(task.id).then(function () {
                     $state.reload();
@@ -38204,6 +38202,10 @@ function TaskPanelDirective(TaskService, $state) {
                     });
                 }
             };
+
+            vm.toggleTaskPanel = function () {
+                vm.displayTaskPanel = !vm.displayTaskPanel;
+            };
         }
     };
 }
@@ -38211,7 +38213,7 @@ function TaskPanelDirective(TaskService, $state) {
 exports.default = TaskPanelDirective;
 
 },{"./task-panel.html":8}],8:[function(require,module,exports){
-module.exports = '<h4>{{ vm.tasklvl | taskImportanceValue }}</h4>\n<!--<h4>{{ vm.tasklvl | taskImportanceValue }} Tasks</h4>-->\n<div id="taskPanelLvl{{vm.tasklvl}}" class="task-panel">\n    <div ng-class="{\'active-task\': task.isActive}" class="task-container task-container-lvl-{{vm.tasklvl}}" ng-repeat="task in vm.tasks" ng-click="vm.toggleActiveTask(task)">        \n        <span>{{ task.title }}</span>\n        <!--<span>{{ task.importance | taskImportanceValue }}</span>    -->\n        <span>{{ task.status }}</span>\n        <span>{{ task.createDate }}</span>\n        <span class="close-wrapper">\n            <span type="button" class="close" aria-label="close" ng-click="vm.removeTask(task)">\n                <span aria-hidden="true">&times;</span>\n            </span>\n        </span>   \n    </div> \n</div>';
+module.exports = '<h4 class="task-header task-header-lvl-{{vm.tasklvl}}" ng-click="vm.toggleTaskPanel()">\n    {{ vm.tasklvl | taskImportanceValue }}\n</h4>\n\n<!--<h4>{{ vm.tasklvl | taskImportanceValue }} Tasks</h4>-->\n<div ng-show="vm.displayTaskPanel" id="taskPanelLvl{{vm.tasklvl}}" class="task-panel">\n    <div ng-class="{\'active-task\': task.isActive}" class="task-container task-container-lvl-{{vm.tasklvl}}" \n         ng-repeat="task in vm.tasks" ng-click="vm.toggleActiveTask(task)">        \n        <span>{{ task.title }}</span>\n        <!--<span>{{ task.importance | taskImportanceValue }}</span>    -->\n        <span>{{ task.status }}</span>\n        <span>{{ task.createDate }}</span>\n        <span class="close-wrapper">\n            <span type="button" class="close" aria-label="close" ng-click="vm.removeTask(task)">\n                <span aria-hidden="true">&times;</span>\n            </span>\n        </span>   \n    </div> \n</div>\n';
 },{}],9:[function(require,module,exports){
 'use strict';
 

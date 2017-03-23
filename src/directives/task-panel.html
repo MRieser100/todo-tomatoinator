@@ -1,7 +1,11 @@
-<h4>{{ vm.tasklvl | taskImportanceValue }}</h4>
+<h4 class="task-header task-header-lvl-{{vm.tasklvl}}" ng-click="vm.toggleTaskPanel()">
+    {{ vm.tasklvl | taskImportanceValue }}
+</h4>
+
 <!--<h4>{{ vm.tasklvl | taskImportanceValue }} Tasks</h4>-->
-<div id="taskPanelLvl{{vm.tasklvl}}" class="task-panel">
-    <div ng-class="{'active-task': task.isActive}" class="task-container task-container-lvl-{{vm.tasklvl}}" ng-repeat="task in vm.tasks" ng-click="vm.toggleActiveTask(task)">        
+<div ng-show="vm.displayTaskPanel" id="taskPanelLvl{{vm.tasklvl}}" class="task-panel">
+    <div ng-class="{'active-task': task.isActive}" class="task-container task-container-lvl-{{vm.tasklvl}}" 
+         ng-repeat="task in vm.tasks" ng-click="vm.toggleActiveTask(task)">        
         <span>{{ task.title }}</span>
         <!--<span>{{ task.importance | taskImportanceValue }}</span>    -->
         <span>{{ task.status }}</span>

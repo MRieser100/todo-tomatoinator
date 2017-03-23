@@ -1,21 +1,6 @@
 {
   "tasks": [
     {
-      "id": 2,
-      "title": "Learn AngularJS",
-      "importance": 2,
-      "isActive": false,
-      "status": 2,
-      "createDate": "2017-03-02",
-      "startDate": "2017-03-02",
-      "notes": [
-        {
-          "title": "If you feel overwhelmed, just do something, slowly",
-          "date": "2017-03-06"
-        }
-      ]
-    },
-    {
       "id": 3,
       "title": "Master the Piano",
       "importance": 2,
@@ -41,26 +26,6 @@
       "notes": []
     },
     {
-      "title": "Create new Deposits Test Data",
-      "importance": 1,
-      "isActive": false,
-      "staus": 0,
-      "createDate": "2017-03-15",
-      "startDate": null,
-      "notes": {},
-      "id": 5
-    },
-    {
-      "title": "Create new Lending Test Data",
-      "importance": 1,
-      "isActive": false,
-      "staus": 0,
-      "createDate": "2017-03-15",
-      "startDate": null,
-      "notes": {},
-      "id": 6
-    },
-    {
       "title": "Find out why D has 0",
       "importance": 4,
       "isActive": false,
@@ -71,17 +36,34 @@
       "id": 8
     },
     {
-      "title": "updated TITLE!!",
-      "importance": 1,
+      "title": "Create new Autumn Straley - current has too many accounts",
+      "importance": 2,
       "isActive": false,
       "status": 0,
-      "createDate": "2017-03-18",
+      "createDate": "2017-03-20",
       "startDate": null,
       "notes": {},
-      "id": 10,
-      "testUpdateParams": {
-        "title": "updated TITLE!!"
-      }
+      "id": 9
+    },
+    {
+      "title": "Master AngularJS",
+      "importance": 3,
+      "isActive": false,
+      "status": 0,
+      "createDate": "2017-03-20",
+      "startDate": null,
+      "notes": {},
+      "id": 10
+    },
+    {
+      "title": "Create Persona method to map primary Lending applicant to Deposits",
+      "importance": 1,
+      "isActive": true,
+      "status": 0,
+      "createDate": "2017-03-23",
+      "startDate": null,
+      "notes": {},
+      "id": 11
     }
   ]
 }

@@ -1,3 +1,4 @@
+/* TEST - push succeeded */
 import template from './task-panel.html';
 
 function TaskPanelDirective(TaskService, $state) {
